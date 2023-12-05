@@ -50,7 +50,7 @@ fn main() {
     for i in 1..=25 {
         match run_task(i, &parsed_args) {
             Ok(_) => (),
-            Err(_) => return,
+            Err(_) => break,
         }
         println!("{SEPARATOR}");
     }

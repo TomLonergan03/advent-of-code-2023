@@ -61,5 +61,5 @@ fn build_num(array: &[Vec<char>], i: usize, j: usize) -> (u32, usize, usize) {
 }
 
 fn part_2(input: &[String]) -> i32 {
-    todo!()
+    -1
 }
