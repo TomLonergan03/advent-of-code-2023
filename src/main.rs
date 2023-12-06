@@ -10,8 +10,6 @@ mod utils;
 struct ParsedArgs {
     // 0 represents all days (should be an enum ikik)
     day: u8,
-    // 0 represents both parts
-    part: u8,
     use_test: bool,
 }
 
@@ -35,22 +33,13 @@ fn parse_args(args: &[String]) -> ParsedArgs {
     if args.len() == 1 {
         return ParsedArgs {
             day: 0,
-            part: 0,
-            use_test: false,
-        };
-    }
-    if args.len() == 2 {
-        return ParsedArgs {
-            day: args[1].get(1..).unwrap().parse().unwrap(),
-            part: 0,
             use_test: false,
         };
     }
     ParsedArgs {
-        day: args[1].get(1..2).unwrap().parse().unwrap(),
-        part: args[2].get(1..2).unwrap().parse().unwrap(),
-        use_test: if args.len() == 4 {
-            args[3].parse().unwrap()
+        day: args[1].get(1..).unwrap().parse().unwrap(),
+        use_test: if args.len() == 3 {
+            args[2] == "test"
         } else {
             false
         },
