@@ -2,7 +2,7 @@ use std::collections::HashSet;
 
 use regex::Regex;
 
-pub fn run(input: Vec<String>) {
+pub fn _run(input: Vec<String>) {
     println!("Part 1: {}", part_1(&input));
     println!("Part 2: {}", part_2(&input));
 }

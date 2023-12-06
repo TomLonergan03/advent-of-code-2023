@@ -1,4 +1,4 @@
-pub fn run(input: Vec<String>) {
+pub fn _run(input: Vec<String>) {
     println!("Part 1: {}", _part_1(&input));
     println!("Part 2: {}", _part_2(&input));
 }

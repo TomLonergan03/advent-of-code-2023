@@ -1,8 +1,9 @@
 use std::{
     fs::File,
-    io::{BufRead, BufReader, Write},
+    io::{self, BufRead, BufReader, Write},
     path::Path,
     sync::Arc,
+    time::Instant,
 };
 
 fn get_cookie() -> String {
@@ -35,9 +36,9 @@ pub fn get_input(
     }
 
     let path = if use_test {
-        format!("input/test/day{}.txt", day_number)
+        format!("input/test/day{:02}.txt", day_number)
     } else {
-        format!("input/real/day{}.txt", day_number)
+        format!("input/real/day{:02}.txt", day_number)
     };
     let path = Path::new(&path);
     if !path.exists() && use_test {
@@ -48,7 +49,9 @@ pub fn get_input(
         let file = File::open(path)?;
         BufReader::new(file).lines().map(|x| x.unwrap()).collect()
     } else {
-        println!("Input file not found, fetching");
+        print!("Input file not found, fetching...\r");
+        io::stdout().flush().unwrap();
+        let start = Instant::now();
         let url = format!("https://adventofcode.com/2023/day/{}/input", day_number);
         let cookie = get_cookie();
         let client = reqwest::blocking::ClientBuilder::new()
@@ -63,6 +66,10 @@ pub fn get_input(
         let response_text = response.text()?;
         let mut file = File::create(path)?;
         file.write_all(response_text.as_bytes())?;
+        println!(
+            "Input file not found, fetched in {}ms",
+            start.elapsed().as_millis()
+        );
         response_text.lines().map(|x| x.to_string()).collect()
     };
     Ok(input)
