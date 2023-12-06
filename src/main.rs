@@ -48,19 +48,25 @@ fn main() {
         return;
     }
     for i in 1..=25 {
-        match run_task(i, &parsed_args) {
-            Ok(_) => (),
-            Err(_) => break,
-        }
+        let result = run_task(i, &parsed_args);
         println!("{SEPARATOR}");
+        if result.is_err_and(|x| x.to_string() == "Day not released yet") {
+            break;
+        }
     }
-    println!("{SEPARATOR}");
 }
 
 fn parse_args(args: &[String]) -> ParsedArgs {
     if args.len() == 1 {
         return ParsedArgs {
             day: 0,
+            part: 0,
+            use_test: false,
+        };
+    }
+    if args.len() == 2 {
+        return ParsedArgs {
+            day: args[1].get(1..).unwrap().parse().unwrap(),
             part: 0,
             use_test: false,
         };
@@ -76,15 +82,9 @@ fn parse_args(args: &[String]) -> ParsedArgs {
     }
 }
 
-fn run_task(day_number: u8, args: &ParsedArgs) -> Result<(), ()> {
+fn run_task(day_number: u8, args: &ParsedArgs) -> Result<(), Box<dyn std::error::Error>> {
     println!("Day {}", day_number);
-    let input = match input_handling::get_input(day_number, args.use_test) {
-        Ok(input) => input,
-        Err(e) => {
-            println!("Day {} error: {}", day_number, e);
-            return Err(());
-        }
-    };
+    let input = input_handling::get_input(day_number, args.use_test)?;
     let now = Instant::now();
     match day_number {
         1 => day1::run(input),
@@ -114,7 +114,7 @@ fn run_task(day_number: u8, args: &ParsedArgs) -> Result<(), ()> {
         // 25 => day25::run(input),
         _ => {
             println!("Day {} not implemented", day_number);
-            return Err(());
+            return Ok(());
         }
     }
     println!("Day {} completed in: {:.2?}", day_number, now.elapsed());

@@ -55,10 +55,15 @@ pub fn get_input(
             .cookie_store(true)
             .cookie_provider(Arc::new(reqwest::cookie::Jar::default()))
             .build()?;
-        let response = client.get(url).header("Cookie", cookie).send()?.text()?;
+        let response = client.get(url).header("Cookie", cookie).send()?;
+        if response.status() == 404 {
+            println!("Day {} not released yet", day_number);
+            return Err("Day not released yet".into());
+        }
+        let response_text = response.text()?;
         let mut file = File::create(path)?;
-        file.write_all(response.as_bytes())?;
-        response.lines().map(|x| x.to_string()).collect()
+        file.write_all(response_text.as_bytes())?;
+        response_text.lines().map(|x| x.to_string()).collect()
     };
     Ok(input)
 }

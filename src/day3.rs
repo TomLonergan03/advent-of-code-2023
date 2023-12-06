@@ -60,6 +60,6 @@ fn build_num(array: &[Vec<char>], i: usize, j: usize) -> (u32, usize, usize) {
     (result, start, end)
 }
 
-fn part_2(input: &[String]) -> i32 {
+fn part_2(_input: &[String]) -> i32 {
     -1
 }
