@@ -9,5 +9,4 @@ fn _part_1(_input: &[String]) -> i32 {
 
 fn _part_2(_input: &[String]) -> i32 {
     -1
-}        
-        
+}
