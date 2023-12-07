@@ -1,3 +1,5 @@
+use std::collections::HashMap;
+
 #[allow(dead_code)]
 #[derive(PartialEq)]
 pub enum NeighbourPattern {
@@ -54,6 +56,17 @@ pub fn get_neighbours(
                 }
             }
         }
+    }
+    result
+}
+
+pub fn count_items<A: Eq + std::hash::Hash + Clone + Copy>(
+    collection: &Vec<A>,
+) -> HashMap<A, usize> {
+    let mut result: HashMap<A, usize> = HashMap::new();
+    for item in collection {
+        let count = result.entry(*item).or_insert(0);
+        *count += 1;
     }
     result
 }
