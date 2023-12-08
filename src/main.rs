@@ -4,6 +4,7 @@ use chrono::Datelike;
 
 mod days;
 mod input_handling;
+#[allow(dead_code)]
 mod utils;
 
 #[derive(PartialEq, Eq, Hash)]

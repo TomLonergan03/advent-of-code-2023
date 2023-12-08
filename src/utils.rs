@@ -1,6 +1,5 @@
-use std::collections::HashMap;
+use std::{cell::RefCell, collections::HashMap, rc::Rc};
 
-#[allow(dead_code)]
 #[derive(PartialEq)]
 pub enum NeighbourPattern {
     Plus,
@@ -69,4 +68,12 @@ pub fn count_items<A: Eq + std::hash::Hash + Clone + Copy>(
         *count += 1;
     }
     result
+}
+
+#[derive(Debug)]
+pub struct Node<A: std::fmt::Debug, B: std::fmt::Debug> {
+    pub name: A,
+    pub value: B,
+    pub left: Option<Rc<RefCell<Node<A, B>>>>,
+    pub right: Option<Rc<RefCell<Node<A, B>>>>,
 }
