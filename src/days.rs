@@ -36,7 +36,7 @@ pub fn run_day(day_number: u8, input: Vec<String>) {
         8 => day08::_run(input),
         9 => day09::_run(input),
         // 10 => day10::_run(input),
-        // 11 => day11::_run(input),
+        11 => day11::_run(input),
         // 12 => day12::_run(input),
         // 13 => day13::_run(input),
         // 14 => day14::_run(input),
