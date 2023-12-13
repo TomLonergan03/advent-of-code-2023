@@ -1,4 +1,4 @@
-use std::{cell::RefCell, collections::HashMap, rc::Rc};
+use std::{cell::RefCell, collections::HashMap, fmt::Debug, rc::Rc};
 
 #[derive(PartialEq)]
 pub enum NeighbourPattern {
@@ -71,9 +71,15 @@ pub fn count_items<A: Eq + std::hash::Hash + Clone + Copy>(
 }
 
 #[derive(Debug)]
-pub struct Node<A: std::fmt::Debug, B: std::fmt::Debug> {
+pub struct Node<A: Debug, B: Debug> {
     pub name: A,
     pub value: B,
     pub left: Option<Rc<RefCell<Node<A, B>>>>,
     pub right: Option<Rc<RefCell<Node<A, B>>>>,
+}
+
+pub fn pretty_print_2d_array<A: Debug>(array: Vec<Vec<A>>) {
+    for line in array {
+        println!("{line:?}");
+    }
 }
