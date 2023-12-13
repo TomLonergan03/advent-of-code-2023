@@ -66,7 +66,7 @@ fn _part_2(_input: &[String]) -> usize {
             .map(|x| calculate_symmetry_score(&x, 1))
             .collect::<Vec<_>>()
     );
-    return input
+    input
         .split("\n\n")
         .map(|x| {
             x.lines()
@@ -74,6 +74,5 @@ fn _part_2(_input: &[String]) -> usize {
                 .collect::<Vec<_>>()
         })
         .map(|x| calculate_symmetry_score(&x, 1))
-        .sum();
-    todo!()
+        .sum()
 }
