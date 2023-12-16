@@ -1,12 +1,8 @@
+use crate::utils::transpose;
+
 pub fn _run(input: Vec<String>) {
     println!("Part 1: {}", _part_1(&input));
     println!("Part 2: {}", _part_2(&input));
-}
-
-fn transpose(field: &[Vec<char>]) -> Vec<Vec<char>> {
-    (0..field[0].len())
-        .map(|i| field.iter().map(|c| c[i]).collect())
-        .collect::<Vec<Vec<char>>>()
 }
 
 fn calculate_symmetry_score(field: &[Vec<char>], number_of_smudges: i32) -> usize {
@@ -54,18 +50,6 @@ fn _part_1(_input: &[String]) -> usize {
 
 fn _part_2(_input: &[String]) -> usize {
     let input = _input.join("\n");
-    println!(
-        "{:?}",
-        input
-            .split("\n\n")
-            .map(|x| {
-                x.lines()
-                    .map(|y| y.chars().collect::<Vec<_>>())
-                    .collect::<Vec<_>>()
-            })
-            .map(|x| calculate_symmetry_score(&x, 1))
-            .collect::<Vec<_>>()
-    );
     input
         .split("\n\n")
         .map(|x| {
