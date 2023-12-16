@@ -78,7 +78,11 @@ pub struct Node<A: Debug, B: Debug> {
     pub right: Option<Rc<RefCell<Node<A, B>>>>,
 }
 
-pub fn pretty_print_2d_array<A: Debug>(array: Vec<Vec<A>>) {
+pub fn wait_for_input() {
+    std::io::stdin().read_line(&mut String::new()).unwrap();
+}
+
+pub fn pretty_print_2d_array<A: Debug>(array: &[Vec<A>]) {
     for line in array {
         println!("{line:?}");
     }
