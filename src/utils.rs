@@ -87,3 +87,9 @@ pub fn pretty_print_2d_array<A: Debug>(array: &[Vec<A>]) {
         println!("{line:?}");
     }
 }
+
+pub fn transpose<A: Clone>(field: &[Vec<A>]) -> Vec<Vec<A>> {
+    (0..field[0].len())
+        .map(|i| field.iter().map(|c| c[i].clone()).collect())
+        .collect::<Vec<Vec<A>>>()
+}
