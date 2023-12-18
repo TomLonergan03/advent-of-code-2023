@@ -93,3 +93,12 @@ pub fn transpose<A: Clone>(field: &[Vec<A>]) -> Vec<Vec<A>> {
         .map(|i| field.iter().map(|c| c[i].clone()).collect())
         .collect::<Vec<Vec<A>>>()
 }
+
+#[derive(PartialEq, Eq, Hash, Clone, Copy, Debug)]
+pub enum Direction {
+    Up,
+    Down,
+    Left,
+    Right,
+    None,
+}

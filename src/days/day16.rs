@@ -1,20 +1,12 @@
 use std::collections::{HashSet, VecDeque};
 
-use crate::utils::pretty_print_2d_array;
+use crate::utils::{pretty_print_2d_array, Direction};
 
 use rayon::prelude::*;
 
 pub fn _run(input: Vec<String>) {
     println!("Part 1: {}", _part_1(&input));
     println!("Part 2: {}", _part_2(&input));
-}
-
-#[derive(PartialEq, Eq, Hash, Clone, Copy, Debug)]
-enum Direction {
-    Up,
-    Down,
-    Left,
-    Right,
 }
 
 #[derive(PartialEq, Eq, Hash, Clone, Copy, Debug)]
@@ -127,6 +119,7 @@ fn reflect(board: &[Vec<char>], x: usize, y: usize, direction: Direction) -> Ref
                 direction: Direction::Right,
             }),
         },
+        _ => unreachable!(),
     }
 }
 
@@ -164,6 +157,7 @@ fn next_position(board: &[Vec<char>], x: usize, y: usize, direction: Direction) 
                 ReflectResult::Absorb
             }
         }
+        _ => unreachable!(),
     }
 }
 
