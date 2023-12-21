@@ -8,12 +8,19 @@ pub enum NeighbourPattern {
     AllWithCenter,
 }
 
+#[derive(PartialEq)]
+pub enum NeighbourArrangement {
+    Scanning,
+    Clockwise,
+}
+
 pub fn get_neighbours(
     x: usize,
     y: usize,
     width: usize,
     height: usize,
     pattern: NeighbourPattern,
+    arrangement: NeighbourArrangement,
 ) -> Vec<(usize, usize)> {
     let x = x as i32;
     let y = y as i32;
@@ -22,7 +29,12 @@ pub fn get_neighbours(
         NeighbourPattern::All => {
             for i in x - 1..=x + 1 {
                 for j in y - 1..=y + 1 {
-                    if i >= 0 && i < height as i32 && j <= width as i32 && !(i == x && j == y) {
+                    if i >= 0
+                        && i < height as i32
+                        && j >= 0
+                        && j <= width as i32
+                        && !(i == x && j == y)
+                    {
                         result.push((i as usize, j as usize))
                     }
                 }
@@ -31,7 +43,7 @@ pub fn get_neighbours(
         NeighbourPattern::AllWithCenter => {
             for i in x - 1..=x + 1 {
                 for j in y - 1..=y + 1 {
-                    if i >= 0 && i < height as i32 && j <= width as i32 {
+                    if i >= 0 && i < height as i32 && j >= 0 && j <= width as i32 {
                         result.push((i as usize, j as usize))
                     }
                 }
@@ -40,7 +52,13 @@ pub fn get_neighbours(
         NeighbourPattern::Plus => {
             for i in x - 1..=x + 1 {
                 for j in y - 1..=y + 1 {
-                    if i >= 0 && i < height as i32 && j <= width as i32 && (i != x && j != y) {
+                    if i >= 0
+                        && i < height as i32
+                        && j >= 0
+                        && j <= width as i32
+                        && (i == x || j == y)
+                        && !(i == x && j == y)
+                    {
                         result.push((i as usize, j as usize))
                     }
                 }
@@ -49,14 +67,34 @@ pub fn get_neighbours(
         NeighbourPattern::PlusWithCenter => {
             for i in x - 1..=x + 1 {
                 for j in y - 1..=y + 1 {
-                    if i >= 0 && i < height as i32 && j <= width as i32 && (i == x || j == y) {
+                    if i >= 0
+                        && i < height as i32
+                        && j >= 0
+                        && j <= width as i32
+                        && (i == x || j == y)
+                    {
                         result.push((i as usize, j as usize))
                     }
                 }
             }
         }
     }
-    result
+    if arrangement == NeighbourArrangement::Scanning {
+        return result;
+    }
+    match pattern {
+        NeighbourPattern::Plus => vec![result[0], result[2], result[3], result[1]],
+        NeighbourPattern::PlusWithCenter => {
+            vec![result[2], result[0], result[3], result[4], result[1]]
+        }
+        NeighbourPattern::All => vec![
+            result[0], result[1], result[2], result[4], result[7], result[6], result[5], result[3],
+        ],
+        NeighbourPattern::AllWithCenter => vec![
+            result[4], result[0], result[1], result[2], result[5], result[8], result[7], result[6],
+            result[3],
+        ],
+    }
 }
 
 pub fn count_items<A: Eq + std::hash::Hash + Clone + Copy>(

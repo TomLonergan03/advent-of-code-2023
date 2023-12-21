@@ -1,4 +1,4 @@
-use crate::utils::{get_neighbours, NeighbourPattern};
+use crate::utils::{get_neighbours, NeighbourArrangement, NeighbourPattern};
 
 pub fn _run(input: Vec<String>) {
     println!("Part 1: {}", part_1(&input));
@@ -17,8 +17,14 @@ fn part_1(input: &[String]) -> u32 {
                 continue;
             }
             if !chars[i][j].is_numeric() {
-                let neighbours =
-                    get_neighbours(i, j, chars.len(), chars[0].len(), NeighbourPattern::All);
+                let neighbours = get_neighbours(
+                    i,
+                    j,
+                    chars.len(),
+                    chars[0].len(),
+                    NeighbourPattern::All,
+                    NeighbourArrangement::Scanning,
+                );
                 let mut can_start_num = 0;
                 let mut current_row = 0;
                 for (x, y) in neighbours {
@@ -74,8 +80,14 @@ fn part_2(_input: &[String]) -> u32 {
                 continue;
             }
             if chars[i][j] == '*' {
-                let neighbours =
-                    get_neighbours(i, j, chars.len(), chars[0].len(), NeighbourPattern::All);
+                let neighbours = get_neighbours(
+                    i,
+                    j,
+                    chars.len(),
+                    chars[0].len(),
+                    NeighbourPattern::All,
+                    NeighbourArrangement::Scanning,
+                );
                 let mut can_start_num = 0;
                 let mut current_row = 0;
                 let mut surrounding_nums = Vec::new();
