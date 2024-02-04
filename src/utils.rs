@@ -24,7 +24,7 @@ pub fn get_neighbours(
 ) -> Vec<(usize, usize)> {
     let x = x as i32;
     let y = y as i32;
-    let mut result: Vec<(usize, usize)> = Vec::new();
+    let mut result: Vec<Option<(usize, usize)>> = Vec::new();
     match pattern {
         NeighbourPattern::All => {
             for i in x - 1..=x + 1 {
@@ -35,7 +35,9 @@ pub fn get_neighbours(
                         && j <= width as i32
                         && !(i == x && j == y)
                     {
-                        result.push((i as usize, j as usize))
+                        result.push(Some((i as usize, j as usize)))
+                    } else {
+                        result.push(None)
                     }
                 }
             }
@@ -44,7 +46,9 @@ pub fn get_neighbours(
             for i in x - 1..=x + 1 {
                 for j in y - 1..=y + 1 {
                     if i >= 0 && i < height as i32 && j >= 0 && j <= width as i32 {
-                        result.push((i as usize, j as usize))
+                        result.push(Some((i as usize, j as usize)))
+                    } else {
+                        result.push(None)
                     }
                 }
             }
@@ -59,7 +63,9 @@ pub fn get_neighbours(
                         && (i == x || j == y)
                         && !(i == x && j == y)
                     {
-                        result.push((i as usize, j as usize))
+                        result.push(Some((i as usize, j as usize)))
+                    } else {
+                        result.push(None)
                     }
                 }
             }
@@ -73,27 +79,41 @@ pub fn get_neighbours(
                         && j <= width as i32
                         && (i == x || j == y)
                     {
-                        result.push((i as usize, j as usize))
+                        result.push(Some((i as usize, j as usize)))
+                    } else {
+                        result.push(None)
                     }
                 }
             }
         }
     }
     if arrangement == NeighbourArrangement::Scanning {
-        return result;
+        return result.into_iter().flatten().collect();
     }
     match pattern {
-        NeighbourPattern::Plus => vec![result[0], result[2], result[3], result[1]],
+        NeighbourPattern::Plus => vec![result[0], result[2], result[3], result[1]]
+            .into_iter()
+            .flatten()
+            .collect(),
         NeighbourPattern::PlusWithCenter => {
             vec![result[2], result[0], result[3], result[4], result[1]]
+                .into_iter()
+                .flatten()
+                .collect()
         }
         NeighbourPattern::All => vec![
             result[0], result[1], result[2], result[4], result[7], result[6], result[5], result[3],
-        ],
+        ]
+        .into_iter()
+        .flatten()
+        .collect(),
         NeighbourPattern::AllWithCenter => vec![
             result[4], result[0], result[1], result[2], result[5], result[8], result[7], result[6],
             result[3],
-        ],
+        ]
+        .into_iter()
+        .flatten()
+        .collect(),
     }
 }
 
